@@ -7,6 +7,14 @@ var mongoose = require('mongoose');
 
 //inicializar variable
 var app = express();
+
+//CORDS
+app.use(function(req, res, next) {
+    res.header("Access-Control-Allow-Origin", "*");
+    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+    res.header("Access-Control-Allow-Methods", "POST, GET, PUT, DELETE, OPTIONS");
+    next();
+});
 //body-parse
 // parse application/x-www-form-urlencoded
 app.use(bodyParser.urlencoded({ extended: false }))
@@ -19,6 +27,9 @@ var usuarioRoutes = require('./rutas/usuarios');
 var grupoRoutes = require('./rutas/grupoUser');
 var categoriaRoutes = require('./rutas/categoria');
 var servicioRoutes = require('./rutas/servicio');
+var habitacionRoutes = require('./rutas/habitacion');
+var reservaDetallesRoutes = require('./rutas/reservaDetalles');
+var reservaCabeceraRoutes = require('./rutas/reservaCabecera');
 
 
 //conexion a la base de daros
@@ -29,6 +40,9 @@ mongoose.connection.openUri('mongodb://localhost:27017/adasDB', (err, res) => {
 
 //rutas
 app.use('/usuario', usuarioRoutes);
+app.use('/reservar', reservaCabeceraRoutes);
+app.use('/reserva', reservaDetallesRoutes);
+app.use('/habitacion', habitacionRoutes);
 app.use('/servicio', servicioRoutes);
 app.use('/categoria', categoriaRoutes);
 app.use('/grupo', grupoRoutes);
